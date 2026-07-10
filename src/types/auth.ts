@@ -1,5 +1,10 @@
 import type { UserEntity } from './user';
 
+// Dữ liệu gửi lên khi đăng nhập bằng Google
+export interface GoogleLoginPayload {
+  idToken: string;
+}
+
 // Dữ liệu trả về từ API khi Login thành công (AuthResponseDto)
 export interface LoginResponse {
   accessToken: string;

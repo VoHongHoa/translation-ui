@@ -3,6 +3,7 @@ import { Form, Input, Button, Card, Typography, Divider, App } from 'antd';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
+import { GoogleLogin } from '@react-oauth/google';
 import { authService } from '../../services/authService';
 import { useAuthStore } from '../../store/useAuthStore';
 import type { LoginPayload } from '../../types/auth';
@@ -20,6 +21,18 @@ const LoginPage: React.FC = () => {
     onSuccess: (data) => {
       login(form.getFieldValue('email'), data.accessToken);
       message.success('Đăng nhập thành công!');
+      navigate('/');
+    },
+    onError: () => {
+      // Lỗi đã được xử lý tập trung trong apiClient interceptor
+    },
+  });
+
+  const googleLoginMutation = useMutation({
+    mutationFn: authService.googleLogin,
+    onSuccess: (data) => {
+      login('google-user', data.accessToken);
+      message.success('Đăng nhập Google thành công!');
       navigate('/');
     },
     onError: () => {
@@ -79,6 +92,38 @@ const LoginPage: React.FC = () => {
           </Button>
         </Form.Item>
       </Form>
+
+      <Divider plain>
+        <Text type="secondary" style={{ fontSize: 13 }}>
+          hoặc
+        </Text>
+      </Divider>
+
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          opacity: googleLoginMutation.isPending ? 0.6 : 1,
+          pointerEvents: googleLoginMutation.isPending ? 'none' : 'auto',
+        }}
+      >
+        <GoogleLogin
+          width={376}
+          text="signin_with"
+          shape="rectangular"
+          logo_alignment="center"
+          onSuccess={(credentialResponse) => {
+            if (!credentialResponse.credential) {
+              message.error('Không nhận được token từ Google. Vui lòng thử lại!');
+              return;
+            }
+            googleLoginMutation.mutate({ idToken: credentialResponse.credential });
+          }}
+          onError={() => {
+            message.error('Đăng nhập Google thất bại. Vui lòng thử lại!');
+          }}
+        />
+      </div>
 
       <Divider plain>
         <Text type="secondary" style={{ fontSize: 13 }}>
