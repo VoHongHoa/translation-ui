@@ -9,9 +9,7 @@ import TranslationPage from '../features/translation/TranslationPage';
 import UserManagementPage from '../features/users/UserManagementPage';
 import PermissionManagementPage from '../features/permissions/PermissionManagementPage';
 import RoleGroupManagementPage from '../features/roleGroups/RoleGroupManagementPage';
-
-// Component tạm thời cho các trang
-const Home = () => <h3>Đây là Trang Chủ (Dùng React Query để fetch data ở đây)</h3>;
+import Homepage from '../features/home/Homepage';
 
 export const router = createBrowserRouter([
   {
@@ -21,7 +19,7 @@ export const router = createBrowserRouter([
         path: '/',
         element: <MainLayout />,
         children: [
-          { path: '/', element: <Home /> },
+          { path: '/', element: <Homepage /> },
           { path: '/profile', element: <ProfilePage /> },
           { path: '/translate', element: <TranslationPage /> },
           { path: '/users', element: <UserManagementPage /> },
