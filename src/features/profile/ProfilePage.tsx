@@ -132,7 +132,7 @@ const ProfilePage: React.FC = () => {
         <Col xs={24} lg={12}>
           <Card title={`Sử dụng trong ngày (${usage?.usageDate ?? '-'})`}>
             <Space direction="vertical" size={12} style={{ width: '100%' }}>
-              <Statistic title="Số lần gọi Google" value={usage?.googleRequestCount ?? 0} />
+              <Statistic title="Số lần gọi" value={usage?.googleRequestCount ?? 0} />
               <Statistic title="Số ký tự đã dùng" value={usage?.characterCount ?? 0} />
               <Statistic title="Số lần dùng cache" value={usage?.cacheHitCount ?? 0} />
               <Statistic title="Request còn lại" value={usage?.remainingDailyRequest ?? 0} />

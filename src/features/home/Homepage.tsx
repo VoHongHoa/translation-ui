@@ -45,7 +45,7 @@ export default function Homepage() {
               >
                 Nền tảng thử nghiệm
                 <br />
-                Dịch thuật truyền thống kết hợp AI
+                Dịch thuật truyền thống
               </Title>
 
               <Paragraph
