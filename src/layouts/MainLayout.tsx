@@ -9,7 +9,7 @@ import {
   theme,
 } from "antd";
 import type { MenuProps } from "antd";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   HomeOutlined,
   UserOutlined,
@@ -45,12 +45,18 @@ export const MainLayout: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { user, logout } = useAuthStore();
+  const queryClient = useQueryClient();
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
+  const handleLogout = () => {
+    queryClient.clear();
+    logout();
+  };
+
   const profileQuery = useQuery({
-    queryKey: ["my-profile-menu"],
+    queryKey: ["my-profile-menu", user],
     queryFn: () => userService.getProfile(),
     enabled: Boolean(user),
     staleTime: 60 * 1000,
@@ -149,7 +155,7 @@ export const MainLayout: React.FC = () => {
       icon: <LogoutOutlined />,
       label: "Đăng xuất",
       danger: true,
-      onClick: logout,
+      onClick: handleLogout,
     },
   ];
 
