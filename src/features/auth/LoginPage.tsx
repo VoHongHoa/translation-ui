@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Button, Card, Typography, Divider, App } from 'antd';
+import { Form, Input, Button, Card, Typography, Divider, App, Spin } from 'antd';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
@@ -44,7 +44,15 @@ const LoginPage: React.FC = () => {
     mutate(values);
   };
 
+  const isLoading = isPending || googleLoginMutation.isPending;
+
   return (
+    <Spin
+      spinning={isLoading}
+      tip="Đang đăng nhập..."
+      size="large"
+      style={{ maxHeight: 'unset' }}
+    >
     <Card
       style={{ width: '100%', maxWidth: 420, boxShadow: '0 4px 24px rgba(0,0,0,0.08)' }}
       variant="borderless"
@@ -139,6 +147,7 @@ const LoginPage: React.FC = () => {
         <Link to="/register">Đăng ký ngay</Link>
       </div>
     </Card>
+    </Spin>
   );
 };
 
